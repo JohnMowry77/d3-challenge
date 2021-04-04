@@ -48,11 +48,17 @@ state_Data = d3.csv("assets/data/data.csv").then(function(state_Data) {
 	});
 
 	//Configure a time scale w/ a range between 0 and the chartWidth
-	var xScale= d3.scaleTime()
+	var xScale= d3.scaleLinear()
 				  .range([0, chartWidth])
-				  .domain(d3.extent(state_Data, data => state_Data['income']));
+				  .domain([0, d3.max(state_Data, data => state_Data['income'])]);
 
-	// console.log(xScale);
-	// 
+	console.log(xScale);
 
+	//Configure a linear scale w/ a range between the chartHeight and O
+	//Set the domain for the yLinearScale function
+	var yScale= d3.scaleLinear()
+				  .range([chartHeight, 0])
+				  .domain([0, d3.max(state_Data, data => state_Data['obesity'])]);
+	
+	console.log(yScale);
 });
