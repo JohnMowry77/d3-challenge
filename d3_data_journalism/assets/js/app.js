@@ -15,3 +15,9 @@ var margin= {
 //Define dimensions of the chart area
 var chartWidth= svgWidth-margin.left-margin.right;
 var chartHeight= svgHeight-margin.top-margin.bottom;
+
+//select div, append SVG area to it, and set its dimensions
+var svg= d3.select("scatter")
+		   .append("svg")
+		   .attr("width", svgWidth)
+		   .attr("height", svgHeight)
