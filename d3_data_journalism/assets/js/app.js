@@ -21,3 +21,8 @@ var svg= d3.select("scatter")
 		   .append("svg")
 		   .attr("width", svgWidth)
 		   .attr("height", svgHeight)
+
+// Append an SVG group, then set its margins
+var chartGroup= svg.append("g")
+				   .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
