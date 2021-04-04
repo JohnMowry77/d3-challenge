@@ -45,5 +45,14 @@ state_Data = d3.csv("assets/data/data.csv").then(function(state_Data) {
 		// state_Data['obesity']=parseTime(state_Data['obesity']);
 		state_Data['income']= +state_Data['income'];
 		state_Data['obesity']= +state_Data['obesity'];
-	})
+	});
+
+	//Configure a time scale w/ a range between 0 and the chartWidth
+	var xScale= d3.scaleTime()
+				  .range([0, chartWidth])
+				  .domain(d3.extent(state_Data, data => state_Data['income']));
+
+	// console.log(xScale);
+	// 
+
 });
