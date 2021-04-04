@@ -31,13 +31,19 @@ var parseTime=d3.timeParse("%B");
 console.log(parseTime);
 
 //two variables chosen:
-var x_Axis= "income";
-var y_Axis= "obesity";
+var inc_Xaxis= "income";
+var obs_Yaxis= "obesity";
 
 //load data from assets/data/data.csv
-census_data = d3.csv("assets/data/data.csv").then(function(census_data) {
+state_Data = d3.csv("assets/data/data.csv").then(function(state_Data) {
 	//print(census_data)
-	console.log(census_data);
+	console.log(state_Data);
 
-
+	//Format the data and cast as numbers
+	state_Data.forEach(function(data) {
+		// state_Data['income']=parseTime(state_Data['income']);
+		// state_Data['obesity']=parseTime(state_Data['obesity']);
+		state_Data['income']= +state_Data['income'];
+		state_Data['obesity']= +state_Data['obesity'];
+	})
 });
