@@ -34,6 +34,12 @@ console.log(parseTime);
 var inc_Xaxis= "income";
 var obs_Yaxis= "obesity";
 
+//other variables:
+var healthcare= "healthcare";
+var age= "age";
+var poverty= "poverty";
+var smokes= "smokes";
+
 //load data from assets/data/data.csv
 state_Data = d3.csv("assets/data/data.csv").then(function(state_Data) {
 	//print(census_data)
@@ -43,8 +49,12 @@ state_Data = d3.csv("assets/data/data.csv").then(function(state_Data) {
 	state_Data.forEach(function(data) {
 		// state_Data['income']=parseTime(state_Data['income']);
 		// state_Data['obesity']=parseTime(state_Data['obesity']);
+		state_Data['poverty']= +state_Data['poverty'];
+		state_Data['age']= +state_Data['age'];
 		state_Data['income']= +state_Data['income'];
+		state_Data['healthcare']= +state_Data['healthcare'];
 		state_Data['obesity']= +state_Data['obesity'];
+		state_Data['smokes']= +state_Data['smokes'];
 	});
 
 	//Configure a time scale w/ a range between 0 and the chartWidth
