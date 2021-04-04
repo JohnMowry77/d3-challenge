@@ -61,4 +61,11 @@ state_Data = d3.csv("assets/data/data.csv").then(function(state_Data) {
 				  .domain([0, d3.max(state_Data, data => state_Data['obesity'])]);
 	
 	console.log(yScale);
+  	// Create two new functions passing the scales in as arguments
+  	// These will be used to create the chart's axes
+  	var bottomAxis=d3.axisBottom(xScale);
+  	var leftAxis=d3.axisLeft(yScale);
+  	
+
+
 });
