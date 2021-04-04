@@ -65,7 +65,11 @@ state_Data = d3.csv("assets/data/data.csv").then(function(state_Data) {
   	// These will be used to create the chart's axes
   	var bottomAxis=d3.axisBottom(xScale);
   	var leftAxis=d3.axisLeft(yScale);
-  	
+
+  	//Append an SVG group element to the SVG area, create the left axis inside of it
+  	chartGroup.append("g")
+  			  .classed("axis", true)
+  			  .call(leftAxis);
 
 
 });
