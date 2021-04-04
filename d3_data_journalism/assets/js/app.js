@@ -30,10 +30,14 @@ var chartGroup= svg.append("g")
 var parseTime=d3.timeParse("%B");
 console.log(parseTime);
 
-
+//two variables chosen:
+var x_Axis= "income";
+var y_Axis= "obesity";
 
 //load data from assets/data/data.csv
 census_data = d3.csv("assets/data/data.csv").then(function(census_data) {
-console.log(census_data);
+	//print(census_data)
+	console.log(census_data);
+
 
 });
