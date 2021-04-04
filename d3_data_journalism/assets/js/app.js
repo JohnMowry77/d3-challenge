@@ -8,7 +8,7 @@ var svgHeight= 500;
 var margin= {
 	top: 20,
 	right: 20,
-	bottom, 20,
+	bottom: 20,
 	left: 20
 };
 
@@ -26,3 +26,14 @@ var svg= d3.select("scatter")
 var chartGroup= svg.append("g")
 				   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
+//Configure a parseTime function which will return a new Date object from a string
+var parseTime=d3.timeParse("%B");
+console.log(parseTime);
+
+
+
+//load data from assets/data/data.csv
+census_data = d3.csv("assets/data/data.csv").then(function(census_data) {
+console.log(census_data);
+
+});
