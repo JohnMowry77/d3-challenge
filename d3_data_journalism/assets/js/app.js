@@ -72,9 +72,10 @@ state_Data = d3.csv("assets/data/data.csv").then(function(state_Data) {
   			  .call(leftAxis);
 
   	//Append an SVG group element to the SVG area, create the bottom axis inside of it
-  	//Tranlsate teh bottom axis to teh bottom of the page ?
+  	//Tranlsate the bottom axis to the bottom of the page 
   	chartGroup.append("g")
   			  .classed("axis", true)
+  			  .attr("transform", `translate(0,${chartHeight})`)
   			  .call(bottomAxis);
 
   	// .catch(function(error) {
