@@ -31,8 +31,8 @@ var parseTime=d3.timeParse("%B");
 console.log(parseTime);
 
 //two variables chosen:
-var inc_Xaxis= "income";
-var obs_Yaxis= "obesity";
+var income= "income";
+var obseity= "obesity";
 
 //other variables:
 var healthcare= "healthcare";
@@ -73,8 +73,8 @@ state_Data = d3.csv("assets/data/data.csv").then(function(state_Data) {
 	console.log(yScale);
   	// Create two new functions passing the scales in as arguments
   	// These will be used to create the chart's axes
-  	var bottomAxis=d3.axisBottom(xScale);
-  	var leftAxis=d3.axisLeft(yScale);
+  	var bottomAxis=d3.axisBottom(xScale); //this is your xAxis
+  	var leftAxis=d3.axisLeft(yScale); //this is your yAxis
 
   	//Append an SVG group element to the SVG area, create the left axis inside of it
   	chartGroup.append("g")
@@ -89,18 +89,30 @@ state_Data = d3.csv("assets/data/data.csv").then(function(state_Data) {
   			  .call(bottomAxis);
 
   	//Create scatterplot and append initial ciricles
-  	var initial_circles=chartGroup.selectAll("g circle")
+  	var circlesGroup=chartGroup.selectAll("circle")
   								  .data(state_Data)
   								  .enter()
-  								  .append("g");
-  	//append circles
-  	initial_circles.append("circle")
-  				   .attr("cx", d=> xScale(d['income']))
-  				   .attr("xy", d=> yScale(d['ovesity']))
-  				   .attr("r", 20)
-  				   .classed("stateCircle", true);
+  								  .append("circle")
+  				   				  .attr("cx", d=> xScale(d.state_Data['income']))
+  				   				  .attr("xy", d=> yScale(d.state_Data['obesity']))
+  				   				  .attr("r", 20)
+  				   				  .classed("stateCircle", true)
+  				   				  .attr("stroke-width", "1")
+  				   				  .attr("stroke", "black");
 
-  	
+  	// //Create x axis title
+  	// chartGroup.append("text")
+  	// 		  .classed("aText", true)
+  	// 		  .attr("x", chartWidth/2)
+  	// 		  .attr("axis-name", "income")
+  	// 		  .text("Income");			   				  
+
+
+  	//Step 1: Append tootip div
+  	var toolTip=d3.select("body")
+  				  .append("div")
+  				  .attr("class", "d3-tip");		  
+
 
   	// .catch(function(error) {
   	// 	console.log(error);
