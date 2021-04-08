@@ -17,7 +17,7 @@ var chartWidth= svgWidth-margin.left-margin.right;
 var chartHeight= svgHeight-margin.top-margin.bottom;
 
 //select div, append SVG area to it, and set its dimensions
-var svg= d3.select("scatter")
+var svg= d3.select("#scatter")
 		   .append("svg")
 		   .attr("width", svgWidth)
 		   .attr("height", svgHeight)
@@ -93,8 +93,8 @@ state_Data = d3.csv("assets/data/data.csv").then(function(state_Data) {
   								  .data(state_Data)
   								  .enter()
   								  .append("circle")
-  				   				  .attr("cx", d=> xScale(d.state_Data['income']))
-  				   				  .attr("xy", d=> yScale(d.state_Data['obesity']))
+  				   				  .attr("cx", d=> xScale(d.state_Data[income]))
+  				   				  .attr("xy", d=> yScale(d.state_Data[obesity]))
   				   				  .attr("r", 20)
   				   				  .classed("stateCircle", true)
   				   				  .attr("stroke-width", "1")
@@ -108,9 +108,9 @@ state_Data = d3.csv("assets/data/data.csv").then(function(state_Data) {
   	// 		  .text("Income");			   				  
 
 
-  	//Step 1: Append tootip div
+  	//Step 1: Append tooltip div
   	var toolTip=d3.select("body")
-  				  .append("div")
+  				  .append("div", "#scatter")
   				  .attr("class", "d3-tip");		  
 
 
