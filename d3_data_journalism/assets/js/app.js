@@ -57,7 +57,7 @@ state_Data = d3.csv("assets/data/data.csv").then(function(state_Data) {
 		state_Data['smokes']= +state_Data['smokes'];
 	});
 
-	//Configure a time scale w/ a range between 0 and the chartWidth
+	//Configure a linear scale w/ a range between 0 and the chartWidth
 	var xScale= d3.scaleLinear()
 				  .range([0, chartWidth])
 				  .domain([0, d3.max(state_Data, data => state_Data['income'])]);
@@ -87,6 +87,20 @@ state_Data = d3.csv("assets/data/data.csv").then(function(state_Data) {
   			  .classed("axis", true)
   			  .attr("transform", `translate(0,${chartHeight})`)
   			  .call(bottomAxis);
+
+  	//Create scatterplot and append initial ciricles
+  	var initial_circles=chartGroup.selectAll("g circle")
+  								  .data(state_Data)
+  								  .enter()
+  								  .append("g");
+  	//append circles
+  	initial_circles.append("circle")
+  				   .attr("cx", d=> xScale(d['income']))
+  				   .attr("xy", d=> yScale(d['ovesity']))
+  				   .attr("r", 20)
+  				   .classed("stateCircle", true);
+
+  	
 
   	// .catch(function(error) {
   	// 	console.log(error);
