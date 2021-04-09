@@ -41,26 +41,27 @@ var poverty= "poverty";
 var smokes= "smokes";
 
 //load data from assets/data/data.csv
-state_Data = d3.csv("assets/data/data.csv").then(function(state_Data) {
+d3.csv("assets/data/data.csv").then(function(state_Data) {
 	//print(census_data)
 	console.log(state_Data);
 
 	//Format the data and cast as numbers
 	state_Data.forEach(function(data) {
+    console.log(data)
 		// state_Data['income']=parseTime(state_Data['income']);
 		// state_Data['obesity']=parseTime(state_Data['obesity']);
 		state_Data['poverty']= +state_Data['poverty'];
 		state_Data['age']= +state_Data['age'];
-		state_Data['income']= +state_Data['income'];
+		data['income']= +data['income'];
 		state_Data['healthcare']= +state_Data['healthcare'];
-		state_Data['obesity']= +state_Data['obesity'];
+		data['obesity']= +data['obesity'];
 		state_Data['smokes']= +state_Data['smokes'];
 	});
 
 	//Configure a linear scale w/ a range between 0 and the chartWidth
 	var xScale= d3.scaleLinear()
 				  .range([0, chartWidth])
-				  .domain([0, d3.max(state_Data, data => state_Data['income'])]);
+				  .domain([30000, d3.max(state_Data, data => data['income'])]);
 
 	console.log(xScale);
 
@@ -68,7 +69,7 @@ state_Data = d3.csv("assets/data/data.csv").then(function(state_Data) {
 	//Set the domain for the yLinearScale function
 	var yScale= d3.scaleLinear()
 				  .range([chartHeight, 0])
-				  .domain([0, d3.max(state_Data, data => state_Data['obesity'])]);
+				  .domain([15, d3.max(state_Data, data => data['obesity'])*1.2]);
 	
 	console.log(yScale);
   	// Create two new functions passing the scales in as arguments
@@ -93,19 +94,19 @@ state_Data = d3.csv("assets/data/data.csv").then(function(state_Data) {
   								  .data(state_Data)
   								  .enter()
   								  .append("circle")
-  				   				  .attr("cx", d=> xScale(d.state_Data[income]))
-  				   				  .attr("xy", d=> yScale(d.state_Data[obesity]))
+  				   				  .attr("cx", d=> xScale(d['income']))
+  				   				  .attr("cy", d=> yScale(d['obesity']))
   				   				  .attr("r", 20)
   				   				  .classed("stateCircle", true)
   				   				  .attr("stroke-width", "1")
   				   				  .attr("stroke", "black");
 
-  	// //Create x axis title
-  	// chartGroup.append("text")
-  	// 		  .classed("aText", true)
-  	// 		  .attr("x", chartWidth/2)
-  	// 		  .attr("axis-name", "income")
-  	// 		  .text("Income");			   				  
+  	//Create x axis title
+  	chartGroup.append("text")
+  			  .classed("aText", true)
+  			  .attr("x", chartWidth/2)
+  			  .attr("axis-name", "income")
+  			  .text("Income");			   				  
 
 
   	//Step 1: Append tooltip div
