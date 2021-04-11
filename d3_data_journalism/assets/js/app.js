@@ -174,7 +174,6 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
   // the xScale user defined function calls the d3.linearScale() 
   // returns a scaler function
 
-
 	//Configure a y scale function use linear scale w/ a range between the chartHeight and O
 	// Set the domain for the yLinearScale function
 	// var yLinearScale= d3.scaleLinear()
@@ -186,7 +185,6 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
   // These will be used to create the chart's axes
   var bottomAxis=d3.axisBottom(xLinearScale); //this is your xAxis
   var leftAxis=d3.axisLeft(yLinearScale); //this is your yAxis
-
 
   //append x axis
   //Append an SVG group element to the SVG area, create the bottom axis inside of it
@@ -223,29 +221,34 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                           .classed("stateText", true)
                           .attr("dx", d => xLinearScale(d[chosenXAxis])) //{return -20})
                           .attr("dy", d => yLinearScale(d[chosenYAxis])+1);
-  // var circlesText = chartGroup.selectAll("stateText")
 
-  //Create group for two x-axis labels
-  var labelsGroup=chartGroup.append("g")
+  //Create group for the three x-axis labels
+  var xLabelsGroup=chartGroup.append("g")
   .attr("transform", `translate(${chartWidth/2}, ${chartHeight})`);
 
-  //Create x axis title
-  var xAxisLabel=labelsGroup.append("text")
-                            .attr("x", 400)
+  //Create x axis title, 3 variables
+  var incomeLabel=labelsGroup.append("text")
+                            .attr("x", 100)
                             // attr("x", chartWidth/2)
                             // attr("y", margin.top+chartHeight+10)
                             .attr("y", 0)
-
                             .attr("value", "income")
                             .classed("active", true)
-                            .text("Income");
+                            .text("Income in $");
 
-  var income_one= labelsGroup.append("text")
-                               .attr("x", 0)
-                               .attr("y", 250)
-                               .attr("value", "incomeMoe") // value to grab for event listener
+  var ageLabel= labelsGroup.append("text")
+                               .attr("x", 200)
+                               .attr("y", 50)
+                               .attr("value", "age") // value to grab for event listener
                                .classed("inactive", true)
-                               .text("IncomeMoe");
+                               .text("Age");
+
+  var povertyLabel= labelsGroup.append("text")
+                             .attr("x", 300)
+                             .attr("y", 50)
+                             .attr("value", "age") // value to grab for event listener
+                             .classed("inactive", true)
+                             .text("Age");
 
   //create y axis
   var yAxisLabel = chartGroup.append("text")

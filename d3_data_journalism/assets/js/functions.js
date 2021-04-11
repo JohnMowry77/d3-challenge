@@ -90,7 +90,7 @@ function updateToolTip(circlesGroup, chosenXAxis, chosenYAxis) {
 
   var yLabel;
 
-  if (chosenYAxis==="obseity") {
+  if (chosenYAxis==="obesity") {
     yLabel = "obesity"
   }
     else {
@@ -106,11 +106,11 @@ function updateToolTip(circlesGroup, chosenXAxis, chosenYAxis) {
   circlesGroup.call(toolTip);
   
   circlesGroup.on("mouseover", function(data) {
-    toolTip.show(data);
+    toolTip.show(data, this);
   })
   //on mouse out event
     .on("mouseout", function(data) {
-      toolTip.hide(data);
+      toolTip.hide(data, this);
     });
   
   return circlesGroup;
