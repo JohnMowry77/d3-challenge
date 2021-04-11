@@ -14,7 +14,7 @@ function xScale(state_Data, chosenXAxis) {
 
 //function used for updating xAxis var upon click on axis label
 function renderAxes(newXScale, xAxis) {
-  var bottomAxis= d3.axisBottom(newXscale);
+  var bottomAxis= d3.axisBottom(newXScale);
 
   xAxis.transition()
        .duration(1000) //one second
@@ -36,7 +36,7 @@ function yScale(state_Data, chosenYAxis) {
 }
 
   function renderYAxes(newYScale, yAxis) {
-    var leftAxis=d3.axisLeft(newYscale);
+    var leftAxis=d3.axisLeft(newYScale);
 
     yAxis.transition()
          .duration(1000)
@@ -46,10 +46,10 @@ function yScale(state_Data, chosenYAxis) {
   }
 
   //function used for updtaing circles group with a transition to new cirles
-function renderXCircles(circlesGroup, newXscale, chosenXAxis) {
+function renderXCircles(circlesGroup, newXScale, chosenXAxis) {
   circlesGroup.transition()
               .duration(1000)
-              .attr("cx", d => newXscale(d[chosenXAxis])); //chg the center of this circle will be to the new location
+              .attr("cx", d => newXScale(d[chosenXAxis])); //chg the center of this circle will be to the new location
 
   return circlesGroup;
 }
@@ -84,17 +84,23 @@ function updateToolTip(circlesGroup, chosenXAxis, chosenYAxis) {
   if (chosenXAxis==="income") { // strict equal if two operands are equal returns boolean
     xLabel= "Income ($)";
   }
+    else if (chosenXAxis ==="age") {
+      xLabel = "Poverty %";
+    }
     else {
-      xLabel = "income_one";
+    	xlabel="Poverty"
     }
 
   var yLabel;
 
   if (chosenYAxis==="obesity") {
-    yLabel = "obesity"
+    yLabel = "Obesity %"
   }
+    else if (chosenYAxis ==="healthcare"){
+      yLabel= "Healthcare";
+    }
     else {
-      yLabel= "obseity_one";
+    	ylabel= "Smokes";
     }
 
   var toolTip =d3.tip()

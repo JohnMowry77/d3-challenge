@@ -255,7 +255,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
 
   var yObesity = yLabelsGroup.append("text")
                              .attr("transform", "rotate(-90)")
-                             .attr("y", -10 -margin.left) //move this back to 0. NEED TO ADJUST SVG ABOVE
+                             .attr("y", -10) //move this back to 0. NEED TO ADJUST SVG ABOVE
                              .attr("x", 0-(chartHeight/2))
                              .attr("dy", "1em")
                              .classed("axis-text", true)
@@ -264,7 +264,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
 
   var yHealthcare = yLabelsGroup.append("text")
                                .attr("transform", "rotate(-90)")
-                               .attr("y", -12 -margin.left) //move this back to 0. NEED TO ADJUST SVG ABOVE
+                               .attr("y", -20) //move this back to 0. NEED TO ADJUST SVG ABOVE
                                .attr("x", 0-(chartHeight/2))
                                .attr("dy", "1em")
                                .classed("axis-text", true)
@@ -321,7 +321,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                     .classed("active", false)
                     .classed("inactive", true);
                   }
-                    else if (ChosenXAxis ==="age") {
+                    else if (chosenXAxis ==="age") {
                       incomeLabel
                       .classed("active", false)
                       .classed("inactive", true);
@@ -346,15 +346,15 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                     }
 
                   if (chosenYAxis === "obesity") {
-                    income
+                    incomeLabel
                     .classed("active", true)
                     .classed("inactive", false);
-                    xAxisLabel
+                    ageLabel
                     .classed("active", false)
                     .classed("inactive", true);
                   }
                     else {
-                      income_one
+                      povertLabel
                       .classed("active", false)
                       .classed("inactive", true);
                     }
@@ -397,7 +397,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                     .classed("active", false)
                     .classed("inactive", true);
                   }
-                    else if (ChosenYAxis ==="healthcare") {
+                    else if (chosenYAxis ==="healthcare") {
                       yObesity
                       .classed("active", false)
                       .classed("inactive", true);
