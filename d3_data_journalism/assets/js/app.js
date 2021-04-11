@@ -163,7 +163,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
   //Tranlsate the bottom axis to the bottom of the page 
   var xAxis=chartGroup.append("g")
                       .classed("x-axis", true)
-                      .attr("transform", `tranlate(0, ${chartHeight})`)
+                      .attr("transform", `translate(0, ${chartHeight})`)
                       .call(bottomAxis);
 
   //append y axis
@@ -174,18 +174,19 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
 
 	//Create scatterplot and append initial ciricles
 	var circlesGroup=chartGroup.selectAll("circle")
-								  .data(state_Data)
-								  .enter()
-								  .append("circle")
-			   				  .attr("cx", d=> xLinearScale(d[chosenXAxis]))
+								  .data(state_Data) //bind to each circle //does the below x number times sequentially
+								  .enter() //create a placeholder
+								  .append("circle") //append a circle in the placeholder
+			   				  .attr("cx", d=> xLinearScale(d[chosenXAxis])) //will never be a string
 			   				  .attr("cy", d=> yLinearScale(d[chosenYAxis]))
 			   				  .attr("r", 20)
 			   				  .classed("stateCircle", true)
 			   				  .attr("stroke-width", "1")
 			   				  .attr("stroke", "black");
+
   //Create group for two x-axis labels
   var labelsGroup=chartGroup.append("g")
-  .attr("transform", `translate(${chartWidth/2}, ${chartHeight +20})`);
+  .attr("transform", `translate(${chartWidth/2}, ${chartHeight})`);
 
   //Create x axis title
   var xAxisLabel=labelsGroup.append("text")
@@ -205,19 +206,42 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
   //create y axis
   chartGroup.append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", 0-margin.left)
+            .attr("y", -10 -margin.left) //move this back to 0. NEED TO ADJUST SVG ABOVE
             .attr("x", 0-(chartHeight/2))
             .attr("dy", "1em")
             .classed("axis-text", true)
             .text("Obesity");
 
-//updateTollTip funciton above csv import
-var circlesGroup= updateToolTip(chosenXAxis, circlesGroup);
+  //updateTollTip funciton above csv import
+  var circlesGroup= updateToolTip(chosenXAxis, circlesGroup);
   	// //Step 1: Append tooltip div
   	// var toolTip=d3.select("body")
   	// 			  .append("div", "#scatter")
   	// 			  .attr("class", "d3-tip");		  
 
+  //x axis lables event listener
+  labelsGroup.selectAll("text")
+             .on("click", function() {
+                var value =d3.select(this).attr("value");
+                if (value!== chosenXAxis) {
+                  //replaces chosenXAxis
+                  chosenXAxis =value;
+
+                  console.log(chosenXAxis)
+                          // functions here found above csv import
+        // updates x scale for new data
+        xLinearScale = xScale(state_Data, chosenXAxis);
+
+        // updates x axis with transition
+        xAxis = renderAxes(xLinearScale, xAxis);
+
+        // updates circles with new x values
+        circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis);
+
+        // updates tooltips with new info
+        circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
+                }
+             });
 
   	// .catch(function(error) {
   	// 	console.log(error);
