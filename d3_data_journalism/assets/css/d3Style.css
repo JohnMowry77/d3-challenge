@@ -70,4 +70,13 @@
 }
 
 
+function xScales(stateData, xAxis) {
+    var xScale= d3.scaleLinear()
+          .range([0, chartWidth])
+          .domain([d3.min(stateData, d=>d[xAxis])*0.8],
+            d3.max(state_Data, =data['income'])]);
 
+  // console.log(xScale);
+  return xScale;
+  .domain([30000, d3.max(state_Data,  => data['income'])]);
+}

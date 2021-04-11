@@ -184,6 +184,14 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
 			   				  .attr("stroke-width", "1")
 			   				  .attr("stroke", "black");
 
+    chartGroup.selectAll("stateText")//stateText doesn't exist right now, it will in the next few lines
+                          .data(state_Data)
+                          .enter()
+                          .append("text")
+                          .classed("stateText", true)
+                          .attr("dx", function(d) {return -20})
+                          .text(function(d) {return d.label})
+
   //Create group for two x-axis labels
   var labelsGroup=chartGroup.append("g")
   .attr("transform", `translate(${chartWidth/2}, ${chartHeight})`);
@@ -191,7 +199,10 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
   //Create x axis title
   var xAxisLabel=labelsGroup.append("text")
                             .attr("x", 400)
+                            // attr("x", chartWidth/2)
+                            // attr("y", margin.top+chartHeight+10)
                             .attr("y", 0)
+
                             .attr("value", "income")
                             .classed("active", true)
                             .text("Income");
