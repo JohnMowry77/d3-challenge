@@ -41,7 +41,7 @@ var chosenYAxis= "obesity";
 function xScale(state_Data, chosenXAxis) {
   var xScale= d3.scaleLinear()
         .domain([d3.min(state_Data, d=> d[chosenXAxis])*0.8, 
-          d3.max(state_Data, d => d[chosenXAxis])*1.2
+          d3.max(state_Data, d => d[chosenXAxis])*1.1
           ])
         .range([0, chartWidth])
 
@@ -64,8 +64,8 @@ function renderAxes(newXScale, xAxis) {
 function yScale(state_Data, chosenYAxis) {
   var yScale= d3.scaleLinear()
                 .range([chartHeight, 0])
-                .domain([d3.min(state_Data, d=> d[chosenYAxis])*0.8,
-                  d3.max(state_Data, d=>d[chosenYAxis])*1.2
+                .domain([d3.min(state_Data, d=> d[chosenYAxis])-1,
+                  d3.max(state_Data, d=>d[chosenYAxis])+1
                   ])
                 // .domain([15, d3.max(state_Data, d => d.obesity.)*1.2]);
   return yScale;
@@ -82,12 +82,19 @@ function yScale(state_Data, chosenYAxis) {
   }
 
 //function used for updtaing circles group with a transition to new cirles
-function renderCircles(circlesGroup, newXscale, chosenXAxis) {
+function renderXCircles(circlesGroup, newXscale, chosenXAxis) {
   circlesGroup.transition()
               .duration(1000)
               .attr("cx", d => newXscale(d[chosenXAxis])); //chg the center of this circle will be to the new location
 
   return circlesGroup;
+}
+
+function renderXCircles(circlesGroup, newYScale, chosenYAxis) {
+  circlesGroup.transition()
+              .duration(1000)
+              .attr("cy", d=> newYScale(d[chosenYAxis]);
+  return circlesGroup;            
 }
 
 // function used for updating circles group with new tooltip
