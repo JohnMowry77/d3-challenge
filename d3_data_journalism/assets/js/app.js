@@ -227,7 +227,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
   .attr("transform", `translate(${chartWidth/2}, ${chartHeight})`);
 
   //Create x axis title, 3 variables
-  var incomeLabel=labelsGroup.append("text")
+  var incomeLabel=xLabelsGroup.append("text")
                             .attr("x", 100)
                             // attr("x", chartWidth/2)
                             // attr("y", margin.top+chartHeight+10)
@@ -236,22 +236,24 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                             .classed("active", true)
                             .text("Income in $");
 
-  var ageLabel= labelsGroup.append("text")
+  var ageLabel= xLabelsGroup.append("text")
                                .attr("x", 200)
                                .attr("y", 50)
                                .attr("value", "age") // value to grab for event listener
                                .classed("inactive", true)
                                .text("Age");
 
-  var povertyLabel= labelsGroup.append("text")
+  var povertyLabel= xLabelsGroup.append("text")
                              .attr("x", 300)
                              .attr("y", 50)
-                             .attr("value", "age") // value to grab for event listener
+                             .attr("value", "poverty") // value to grab for event listener
                              .classed("inactive", true)
-                             .text("Age");
+                             .text("poverty");
 
-  //create y axis
-  var yAxisLabel = chartGroup.append("text")
+  //create y axis for 3 variables
+  var yLabelsGroup= chartGroup.append("g");
+
+  var yObesity = yLabelsGroup.append("text")
                              .attr("transform", "rotate(-90)")
                              .attr("y", -10 -margin.left) //move this back to 0. NEED TO ADJUST SVG ABOVE
                              .attr("x", 0-(chartHeight/2))
@@ -260,22 +262,30 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                              .text("Obesity");
 
 
-  var obesity_one = labelsGroup.append("text")
+  var yHealthcare = yLabelsGroup.append("text")
                                .attr("transform", "rotate(-90)")
                                .attr("y", -12 -margin.left) //move this back to 0. NEED TO ADJUST SVG ABOVE
                                .attr("x", 0-(chartHeight/2))
                                .attr("dy", "1em")
                                .classed("axis-text", true)
-                               .text("Obesity_One");
+                               .text("Lacks Healthcare (%)");
+
+  var ySmoke = yLabelsGroup.append("text")
+                               .attr("transform", "rotate(-90)")
+                               .attr("y", -8 -margin.left) //move this back to 0. NEED TO ADJUST SVG ABOVE
+                              .attr("x", 0-(chartHeight/2))
+                              .attr("dy", "1em")
+                             .classed("axis-text", true)
+                             .text("Smokes");
   //updateTollTip funciton above csv import
-  var circlesGroup= updateToolTip(circlesGroup, chosenXAxis, chosenYAxis);
+ circlesGroup= updateToolTip(circlesGroup, chosenXAxis, chosenYAxis);
   	// //Step 1: Append tooltip div
   	// var toolTip=d3.select("body")
   	// 			  .append("div", "#scatter")
   	// 			  .attr("class", "d3-tip");		  
 
   //x axis lables event listener
-  labelsGroup.selectAll("text")
+  xLabelsGroup.selectAll("text")
              .on("click", function() {
                 var value =d3.select(this).attr("value");
                 if (value!== chosenXAxis) {
