@@ -30,15 +30,15 @@ var chartGroup= svg.append("g")
 var parseTime=d3.timeParse("%B");
 console.log(parseTime);
 
-//two variables chosen:
-var income= "income";
-var obseity= "obesity";
+// //two variables chosen:
+// var income= "income";
+// var obseity= "obesity";
 
-//other variables:
-var healthcare= "healthcare";
-var age= "age";
-var poverty= "poverty";
-var smokes= "smokes";
+// //other variables:
+// var healthcare= "healthcare";
+// var age= "age";
+// var poverty= "poverty";
+// var smokes= "smokes";
 
 //load data from assets/data/data.csv
 d3.csv("assets/data/data.csv").then(function(state_Data) {
@@ -47,15 +47,15 @@ d3.csv("assets/data/data.csv").then(function(state_Data) {
 
 	//Format the data and cast as numbers
 	state_Data.forEach(function(data) {
-    console.log(data)
+    // console.log(data)
 		// state_Data['income']=parseTime(state_Data['income']);
 		// state_Data['obesity']=parseTime(state_Data['obesity']);
-		state_Data['poverty']= +state_Data['poverty'];
-		state_Data['age']= +state_Data['age'];
+		data['poverty']= +data['poverty'];
+		data['age']= +data['age'];
 		data['income']= +data['income'];
-		state_Data['healthcare']= +state_Data['healthcare'];
+		data['healthcare']= +data['healthcare'];
 		data['obesity']= +data['obesity'];
-		state_Data['smokes']= +state_Data['smokes'];
+		data['smokes']= +data['smokes'];
 	});
 
 	//Configure a linear scale w/ a range between 0 and the chartWidth
@@ -101,12 +101,35 @@ d3.csv("assets/data/data.csv").then(function(state_Data) {
   				   				  .attr("stroke-width", "1")
   				   				  .attr("stroke", "black");
 
+                      chartGroup.selectAll(".stateText")
+                                .data(state_Data)
+                                .enter()
+                                .append("text")
+                                .classed("stateText", true)
+                                .attr("x", d=>xScale(d.income));
+ 
+    //Create group for two x-axis labels
+    var labelsGroup=chartGroup.append("g")
+    .attr("transform", `translate${svgWidth/2}, ${svgHeight +20})`);                               
+
+
   	//Create x axis title
-  	chartGroup.append("text")
-  			  .classed("aText", true)
-  			  .attr("x", chartWidth/2)
-  			  .attr("axis-name", "income")
-  			  .text("Income");			   				  
+  	var xAxisLabel=chartGroup.append("text")
+                             .attr("x", 80)
+                             .attr("y", 0)
+                             .attr("value", "income")
+  			                     .classed("active", true)
+  			                     // .attr("x", chartWidth/2
+                             .text("Income");			   				  
+
+    //Create y axis title
+    var yAxisLabel=chartGroup.append("text")
+                             .attr("transform", "rotate(-90)")
+                             .attr("y", margin.left-20)
+                             .attr("x", 0- (chartHeight/2))
+                             .attr("dy", "1em")
+                             .classed("axis-text", true)
+                             .text("Obesity")
 
 
   	//Step 1: Append tooltip div
