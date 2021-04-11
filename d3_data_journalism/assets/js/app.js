@@ -228,7 +228,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
 
   //Create x axis title, 3 variables
   var incomeLabel=xLabelsGroup.append("text")
-                            .attr("x", 100)
+                            .attr("x", 30)
                             // attr("x", chartWidth/2)
                             // attr("y", margin.top+chartHeight+10)
                             .attr("y", 0)
@@ -237,15 +237,15 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                             .text("Income in $");
 
   var ageLabel= xLabelsGroup.append("text")
-                               .attr("x", 20)
+                               .attr("x", 30)
                                .attr("y", 10)
                                .attr("value", "age") // value to grab for event listener
                                .classed("inactive", true)
                                .text("Age");
 
   var povertyLabel= xLabelsGroup.append("text")
-                             .attr("x", 300)
-                             .attr("y", 50)
+                             .attr("x", 30)
+                             .attr("y", 20)
                              .attr("value", "poverty") // value to grab for event listener
                              .classed("inactive", true)
                              .text("poverty");
