@@ -4,7 +4,8 @@
 //function
 function xScale(state_Data, chosenXAxis) {
   var xScale= d3.scaleLinear()
-        .domain([d3.min(state_Data, d=> d[chosenXAxis])*0.8, 
+        .domain([d3.min(state_Data, d=> d[chosenXAxis]) * 0.90, 
+        // .domain([3000,
           d3.max(state_Data, d => d[chosenXAxis])*1.1
           ])
         .range([0, chartWidth])
@@ -72,7 +73,7 @@ function renderXText(circlesGroup, newXScale, chosenXAxis) {
 function renderYText (circlesGroup, newYScale, chosenYAxis) {
   circlesGroup.transition()
               .duration (1000)
-              .attr("dy", d=> newYScale(d[ChosenYAxis]));
+              .attr("dy", d=> newYScale(d[chosenYAxis]));
   return circlesGroup;
 }
 
@@ -85,10 +86,10 @@ function updateToolTip(circlesGroup, chosenXAxis, chosenYAxis) {
     xLabel= "Income ($)";
   }
     else if (chosenXAxis ==="age") {
-      xLabel = "Poverty %";
+      xLabel = "Age";
     }
     else {
-    	xlabel="Poverty"
+    	xlabel="Poverty %"
     }
 
   var yLabel;
