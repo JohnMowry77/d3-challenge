@@ -16,8 +16,7 @@ var margin= {
 var chartWidth= svgWidth-margin.left-margin.right;
 var chartHeight= svgHeight-margin.top-margin.bottom;
 
-//Create an SVG wrapper, select div, append SVG area to it, and set its dimensions
-//and shift the latter by left and top margins
+//select div, append SVG area to it, and set its dimensions
 var svg= d3.select("#scatter")
 		   .append("svg")
 		   .attr("width", svgWidth)
@@ -27,83 +26,26 @@ var svg= d3.select("#scatter")
 var chartGroup= svg.append("g")
 				   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-// // Initial Params (two variables chosen)
-var xIncome= "income";
-var yObesity= "obesity";
+//Configure a parseTime function which will return a new Date object from a string
+var parseTime=d3.timeParse("%B");
+console.log(parseTime);
+
+// //two variables chosen:
+// var income= "income";
+// var obseity= "obesity";
+
 // //other variables:
 // var healthcare= "healthcare";
 // var age= "age";
 // var poverty= "poverty";
 // var smokes= "smokes";
 
-//Configure a linear scale w/ a range between 0 and the chartWidth
-//function
-function xScale(state_Data, ChosenXAxis) {
-  var xScale= d3.scaleLinear()
-        .domain([d3.min(state_Data, d=> d[chosenXAxis])*0.8, 
-          d3.max(state_Data, d => d[xIncome])*1.2
-          ])
-        .range([0, chartWidth])
-
-  return xScale; //scaler is a function so we have to call xScale(and then a #/value)
-}
-
-//function used for updating xAxis var upon click on axis label
-function renderAxes(newXScale, xAxis) {
-  var bottomAxis= d3.axisBottom(newXscale);
-
-  xAxis.transition()
-       .duration(1000) //one second
-       .call(bottomAxis);
-
-  return xAxis;
-}
-
-//function used for updtaing circles group with a transition to new cirles
-function renderCircles(circlesGroup, newXscale, chosenXaxis) {
-  circlesGroup.transition()
-              .duration(1000)
-              .attr("cx", d => newXscale(d[chosenXaxis])); //chg the center of this circle will be to the new location
-
-  return circlesGroup;
-}
-
-// function used for updating circles group with new tooltip
-function updateToolTip(chosenXaxis, circlesGroup) {
-  
-  var label; 
-
-  if (chosenXaxis=='income') {
-    label= "Income ($)";
-  }
-  else {
-    label = "Income ($$$$$$)";
-  }
-
-  var toolTip =d3.tip()
-                 .attr("class", "d3-tip")
-                 .offset([80, -60])
-                 .html(function(d) {
-                  return(`${d.state}<br>${label} ${d[chosenXaxis]}`);
-                 });
-  circlesGroup.call(toolTip);
-  
-  circlesGroup.on("mouseover", function(data) {
-    toolTip.show(data);
-  })
-  //on mouse out event
-    .on("mouseout", function(data, index) {
-      toolTip.hide(data);
-    });
-  
-  return circlesGroup;
-}
-
 //load data from assets/data/data.csv
-d3.csv("assets/data/data.csv").then(function(state_Data, err) {
-  if (err) throw err;
-	
-  //Format the data and cast as numbers
+d3.csv("assets/data/data.csv").then(function(state_Data) {
+	//print(census_data)
+	console.log(state_Data);
+
+	//Format the data and cast as numbers
 	state_Data.forEach(function(data) {
     // console.log(data)
 		// state_Data['income']=parseTime(state_Data['income']);
@@ -116,15 +58,18 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
 		data['smokes']= +data['smokes'];
 	});
 
+	//Configure a linear scale w/ a range between 0 and the chartWidth
+	var xScale= d3.scaleLinear()
+				  .range([0, chartWidth])
+				  .domain([30000, d3.max(state_Data, data => data['income'])]);
 
-
-  var xScale= xScale(state_Data, chosenXaxis);
+	console.log(xScale);
 
 	//Configure a linear scale w/ a range between the chartHeight and O
 	//Set the domain for the yLinearScale function
 	var yScale= d3.scaleLinear()
-				        .range([chartHeight, 0])
-				        .domain([15, d3.max(state_Data, data => data['obesity'])*1.2]);
+				  .range([chartHeight, 0])
+				  .domain([15, d3.max(state_Data, data => data['obesity'])*1.2]);
 	
 	console.log(yScale);
   	// Create two new functions passing the scales in as arguments
@@ -175,15 +120,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                              .attr("value", "income")
   			                     .classed("active", true)
   			                     // .attr("x", chartWidth/2
-                             .text("Income");
-
-    var income_one = labelsGroup.append("text")
-                                 .attr("x", 0)
-                                 .attr("y", 40)
-                                 .attr("value", "income") // value to grab for event listener
-                                 .classed("inactive", true)
-                                 .text("income_one");
-			   				  
+                             .text("Income");			   				  
 
     //Create y axis title
     var yAxisLabel=chartGroup.append("text")
@@ -205,4 +142,3 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
   	// 	console.log(error);
   	// });
 });
-
