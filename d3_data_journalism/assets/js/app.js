@@ -28,8 +28,8 @@ var chartGroup= svg.append("g")
 				   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 // // Initial Params (two variables chosen)
-var xIncome= "income";
-var yObesity= "obesity";
+var chosenXAxis= "income";
+var chosenYAxis= "obesity";
 // //other variables:
 // var healthcare= "healthcare";
 // var age= "age";
@@ -38,10 +38,10 @@ var yObesity= "obesity";
 
 //Configure a linear scale w/ a range between 0 and the chartWidth
 //function
-function xScale(state_Data, ChosenXAxis) {
+function xScale(state_Data, chosenXAxis) {
   var xScale= d3.scaleLinear()
         .domain([d3.min(state_Data, d=> d[chosenXAxis])*0.8, 
-          d3.max(state_Data, d => d[xIncome])*1.2
+          d3.max(state_Data, d => d[chosenXAxis])*1.2
           ])
         .range([0, chartWidth])
 
@@ -61,14 +61,15 @@ function renderAxes(newXScale, xAxis) {
 
 //Configure a y scale function use linear scale w/ a range between the chartHeight and O
   //Set the domain for the yLinearScale function
-function yScale(state_Data, ChosenYAxis)
+function yScale(state_Data, chosenYAxis) {
   var yScale= d3.scaleLinear()
                 .range([chartHeight, 0])
-                .domain([d3.min(state_Data, d=> d[ChosenYAxis])*0.8,
-                  d3.max(state_Data, d=>d[yObseity])*1.2
+                .domain([d3.min(state_Data, d=> d[chosenYAxis])*0.8,
+                  d3.max(state_Data, d=>d[chosenYAxis])*1.2
                   ])
                 // .domain([15, d3.max(state_Data, d => d.obesity.)*1.2]);
-  range yScale;
+  return yScale;
+}
 
   function renderYAxes(newYScale, yAxis) {
     var leftAxis=d3.axisBottom(newYscale);
@@ -81,16 +82,16 @@ function yScale(state_Data, ChosenYAxis)
   }
 
 //function used for updtaing circles group with a transition to new cirles
-function renderCircles(circlesGroup, newXscale, chosenXaxis) {
+function renderCircles(circlesGroup, newXscale, chosenXAxis) {
   circlesGroup.transition()
               .duration(1000)
-              .attr("cx", d => newXscale(d[chosenXaxis])); //chg the center of this circle will be to the new location
+              .attr("cx", d => newXscale(d[chosenXAxis])); //chg the center of this circle will be to the new location
 
   return circlesGroup;
 }
 
 // function used for updating circles group with new tooltip
-function updateToolTip(chosenXaxis, circlesGroup) {
+function updateToolTip(chosenXAxis, circlesGroup) {
   
   var label; 
 
@@ -105,7 +106,7 @@ function updateToolTip(chosenXaxis, circlesGroup) {
                  .attr("class", "d3-tip")
                  .offset([80, -60])
                  .html(function(d) {
-                  return(`${d.state}<br>${label} ${d[chosenXaxis]}`);
+                  return(`${d.state}<br>${label} ${d[chosenXAxis]}`);
                  });
   circlesGroup.call(toolTip);
   
@@ -139,93 +140,83 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
 
 
   // xScale function above csv import
-  var xLinearScale= xScale(state_Data, chosenXaxis);
+  var xLinearScale= xScale(state_Data, chosenXAxis);
   // the xScale user defined function calls the d3.linearScale() 
   // returns a scaler function
 
 
 	//Configure a y scale function use linear scale w/ a range between the chartHeight and O
-	//Set the domain for the yLinearScale function
+	// Set the domain for the yLinearScale function
 	// var yLinearScale= d3.scaleLinear()
-	// 			        .range([chartHeight, 0])
-	// 			        .domain([15, d3.max(state_Data, d => d.obesity.)*1.2]);
+	// 			              .domain([15, d3.max(state_Data, d => d.obesity)])
+ //                      .range([chartHeight, 0]);
 	
   var yLinearScale= yScale(state_Data, chosenYAxis);
   	// Create two new functions passing the scales in as arguments
   	// These will be used to create the chart's axes
-  	var bottomAxis=d3.axisBottom(xLinearScale); //this is your xAxis
-  	var leftAxis=d3.axisLeft(yLinearScale); //this is your yAxis
+  var bottomAxis=d3.axisBottom(xLinearScale); //this is your xAxis
+  var leftAxis=d3.axisLeft(yLinearScale); //this is your yAxis
 
 
-    //append x axis
-    //Append an SVG group element to the SVG area, create the bottom axis inside of it
-    //Tranlsate the bottom axis to the bottom of the page 
-    var xAxis=chartGroup.append("g")
-                        .classed("x-axis", true)
-                        .attr("transform" `tranlate(0, ${chartHeight}`)
-                        .call(bottomAxis);
+  //append x axis
+  //Append an SVG group element to the SVG area, create the bottom axis inside of it
+  //Tranlsate the bottom axis to the bottom of the page 
+  var xAxis=chartGroup.append("g")
+                      .classed("x-axis", true)
+                      .attr("transform", `tranlate(0, ${chartHeight})`)
+                      .call(bottomAxis);
 
-    //append y axis
-  	//Append an SVG group element to the SVG area, create the left axis inside of it
-  	chartGroup.append("g")
-  			  .classed("axis", true)
-  			  .call(leftAxis);
+  //append y axis
+  //Append an SVG group element to the SVG area, create the left axis inside of it
+  chartGroup.append("g")
+  			// .classed("axis", true)
+  			    .call(leftAxis);
 
-  	//Create scatterplot and append initial ciricles
-  	var circlesGroup=chartGroup.selectAll("circle")
-  								  .data(state_Data)
-  								  .enter()
-  								  .append("circle")
-  				   				  .attr("cx", d=> xScale(d['income']))
-  				   				  .attr("cy", d=> yScale(d['obesity']))
-  				   				  .attr("r", 20)
-  				   				  .classed("stateCircle", true)
-  				   				  .attr("stroke-width", "1")
-  				   				  .attr("stroke", "black");
+	//Create scatterplot and append initial ciricles
+	var circlesGroup=chartGroup.selectAll("circle")
+								  .data(state_Data)
+								  .enter()
+								  .append("circle")
+			   				  .attr("cx", d=> xLinearScale(d[chosenXAxis]))
+			   				  .attr("cy", d=> yLinearScale(d[chosenYAxis]))
+			   				  .attr("r", 20)
+			   				  .classed("stateCircle", true)
+			   				  .attr("stroke-width", "1")
+			   				  .attr("stroke", "black");
+  //Create group for two x-axis labels
+  var labelsGroup=chartGroup.append("g")
+  .attr("transform", `translate${svgWidth/2}, ${svgHeight +20})`);
 
-                      chartGroup.selectAll(".stateText")
-                                .data(state_Data)
-                                .enter()
-                                .append("text")
-                                .classed("stateText", true)
-                                .attr("x", d=>xScale(d.income));
- 
-    //Create group for two x-axis labels
-    var labelsGroup=chartGroup.append("g")
-    .attr("transform", `translate${svgWidth/2}, ${svgHeight +20})`);                               
+  //Create x axis title
+  var xAxisLabel=labelsGroup.append("text")
+                            .attr("x", 400)
+                            .attr("y", 0)
+                            .attr("value", "income")
+                            .classed("active", true)
+                            .text("Income");
 
+  var income_one = labelsGroup.append("text")
+                               .attr("x", 0)
+                               .attr("y", 250)
+                               .attr("value", "incomeMoe") // value to grab for event listener
+                               .classed("inactive", true)
+                               .text("IncomeMoe");
 
-  	//Create x axis title
-  	var xAxisLabel=chartGroup.append("text")
-                             .attr("x", 80)
-                             .attr("y", 0)
-                             .attr("value", "income")
-  			                     .classed("active", true)
-  			                     // .attr("x", chartWidth/2
-                             .text("Income");
+  //create y axis
+  chartGroup.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0-margin.left)
+            .attr("x", 0-(height/2))
+            .attr("dy", "1em")
+            .classed("axis-text", true)
+            .text("Obesity");
 
-    var income_one = labelsGroup.append("text")
-                                 .attr("x", 0)
-                                 .attr("y", 40)
-                                 .attr("value", "income") // value to grab for event listener
-                                 .classed("inactive", true)
-                                 .text("income_one");
-			   				  
-
-    //Create y axis title
-    var yAxisLabel=chartGroup.append("text")
-                             .attr("transform", "rotate(-90)")
-                             .attr("y", margin.left-20)
-                             .attr("x", 0- (chartHeight/2))
-                             .attr("dy", "1em")
-                             .classed("axis-text", true)
-                             .text("Obesity")
-
-
-  	//Step 1: Append tooltip div
-  	var toolTip=d3.select("body")
-  				  .append("div", "#scatter")
-  				  .attr("class", "d3-tip");		  
+//updateTollTip funciton above csv import
+var circlesGroup= updateToolTip(ChosenXAxis, circlesGroup);
+  	// //Step 1: Append tooltip div
+  	// var toolTip=d3.select("body")
+  	// 			  .append("div", "#scatter")
+  	// 			  .attr("class", "d3-tip");		  
 
 
   	// .catch(function(error) {
