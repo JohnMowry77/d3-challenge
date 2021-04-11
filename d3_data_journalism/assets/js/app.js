@@ -198,23 +198,23 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
 
   //append y axis
   //Append an SVG group element to the SVG area, create the left axis inside of it
-  chartGroup.append("g")
+  var yAxis=chartGroup.append("g")
   			// .classed("axis", true)
   			    .call(leftAxis);
 
-	//Create scatterplot and append initial ciricles
-	var circlesGroup = chartGroup.selectAll("circle")
-								  .data(state_Data) //bind to each circle //does the below x number times sequentially
-								  .enter() //create a placeholder
-								  .append("circle") //append a circle in the placeholder
-			   				  .attr("cx", d=> xLinearScale(d[chosenXAxis])) //will never be a string
-			   				  .attr("cy", d=> yLinearScale(d[chosenYAxis]))
-			   				  .attr("r", 20)
-			   				  .classed("stateCircle", true)
-			   				  .attr("stroke-width", "1")
-			   				  .attr("stroke", "black");
+  var circlesGroup = chartGroup.selectAll("g circle")
+    .data(state_Data)
+    .enter()
+    .append("g");
+  var circlesX_Y= circlesGroup.append("circle")
+                              .attr("cx", d=> xLinearScale(d[chosenXAxis])) //will never be a string
+                              .attr("cy", d=> yLinearScale(d[chosenYAxis]))
+                              .attr("r", 20)
+                              .classed("stateCircle", true)
+                              .attr("stroke-width", "1")
+                              .attr("stroke", "black");
 
-  var circlesText = chartGroup.append("text")//text doesn't exist right now, it will in the next few lines
+  var circlesText = circlesGroup.append("text")//text doesn't exist right now, it will in the next few lines
                           .text(d => d.abbr)
                           .classed("stateText", true)
                           .attr("dx", d => xLinearScale(d[chosenXAxis])) //{return -20})
