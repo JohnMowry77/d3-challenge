@@ -95,7 +95,7 @@ function updateToolTip(chosenXAxis, circlesGroup) {
   
   var label; 
 
-  if (chosenXaxis=='income') {
+  if (chosenXAxis=='income') {
     label= "Income ($)";
   }
   else {
@@ -185,7 +185,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
 			   				  .attr("stroke", "black");
   //Create group for two x-axis labels
   var labelsGroup=chartGroup.append("g")
-  .attr("transform", `translate${svgWidth/2}, ${svgHeight +20})`);
+  .attr("transform", `translate(${chartWidth/2}, ${chartHeight +20})`);
 
   //Create x axis title
   var xAxisLabel=labelsGroup.append("text")
@@ -206,13 +206,13 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
   chartGroup.append("text")
             .attr("transform", "rotate(-90)")
             .attr("y", 0-margin.left)
-            .attr("x", 0-(height/2))
+            .attr("x", 0-(chartHeight/2))
             .attr("dy", "1em")
             .classed("axis-text", true)
             .text("Obesity");
 
 //updateTollTip funciton above csv import
-var circlesGroup= updateToolTip(ChosenXAxis, circlesGroup);
+var circlesGroup= updateToolTip(chosenXAxis, circlesGroup);
   	// //Step 1: Append tooltip div
   	// var toolTip=d3.select("body")
   	// 			  .append("div", "#scatter")
