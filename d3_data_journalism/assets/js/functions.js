@@ -36,7 +36,7 @@ function yScale(state_Data, chosenYAxis) {
 }
 
   function renderYAxes(newYScale, yAxis) {
-    var leftAxis=d3.axisBottom(newYscale);
+    var leftAxis=d3.axisLeft(newYscale);
 
     yAxis.transition()
          .duration(1000)
