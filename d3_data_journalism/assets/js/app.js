@@ -59,6 +59,27 @@ function renderAxes(newXScale, xAxis) {
   return xAxis;
 }
 
+//Configure a y scale function use linear scale w/ a range between the chartHeight and O
+  //Set the domain for the yLinearScale function
+function yScale(state_Data, ChosenYAxis)
+  var yScale= d3.scaleLinear()
+                .range([chartHeight, 0])
+                .domain([d3.min(state_Data, d=> d[ChosenYAxis])*0.8,
+                  d3.max(state_Data, d=>d[yObseity])*1.2
+                  ])
+                // .domain([15, d3.max(state_Data, d => d.obesity.)*1.2]);
+  range yScale;
+
+  function renderYAxes(newYScale, yAxis) {
+    var leftAxis=d3.axisBottom(newYscale);
+
+    yAxis.transition()
+         .duration(1000)
+         .call(leftAxis);
+
+    return yAxis;
+  }
+
 //function used for updtaing circles group with a transition to new cirles
 function renderCircles(circlesGroup, newXscale, chosenXaxis) {
   circlesGroup.transition()
@@ -101,9 +122,9 @@ function updateToolTip(chosenXaxis, circlesGroup) {
 
 //load data from assets/data/data.csv
 d3.csv("assets/data/data.csv").then(function(state_Data, err) {
-  if (err) throw err;
+  if (err) throw err; //when promise fulfilled call it state_Data or return err
 	
-  //Format the data and cast as numbers
+  //Format the data and type_cast as numbers (csv is string values)
 	state_Data.forEach(function(data) {
     // console.log(data)
 		// state_Data['income']=parseTime(state_Data['income']);
@@ -117,32 +138,38 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
 	});
 
 
+  // xScale function above csv import
+  var xLinearScale= xScale(state_Data, chosenXaxis);
+  // the xScale user defined function calls the d3.linearScale() 
+  // returns a scaler function
 
-  var xScale= xScale(state_Data, chosenXaxis);
 
-	//Configure a linear scale w/ a range between the chartHeight and O
+	//Configure a y scale function use linear scale w/ a range between the chartHeight and O
 	//Set the domain for the yLinearScale function
-	var yScale= d3.scaleLinear()
-				        .range([chartHeight, 0])
-				        .domain([15, d3.max(state_Data, data => data['obesity'])*1.2]);
+	// var yLinearScale= d3.scaleLinear()
+	// 			        .range([chartHeight, 0])
+	// 			        .domain([15, d3.max(state_Data, d => d.obesity.)*1.2]);
 	
-	console.log(yScale);
+  var yLinearScale= yScale(state_Data, chosenYAxis);
   	// Create two new functions passing the scales in as arguments
   	// These will be used to create the chart's axes
-  	var bottomAxis=d3.axisBottom(xScale); //this is your xAxis
-  	var leftAxis=d3.axisLeft(yScale); //this is your yAxis
+  	var bottomAxis=d3.axisBottom(xLinearScale); //this is your xAxis
+  	var leftAxis=d3.axisLeft(yLinearScale); //this is your yAxis
 
+
+    //append x axis
+    //Append an SVG group element to the SVG area, create the bottom axis inside of it
+    //Tranlsate the bottom axis to the bottom of the page 
+    var xAxis=chartGroup.append("g")
+                        .classed("x-axis", true)
+                        .attr("transform" `tranlate(0, ${chartHeight}`)
+                        .call(bottomAxis);
+
+    //append y axis
   	//Append an SVG group element to the SVG area, create the left axis inside of it
   	chartGroup.append("g")
   			  .classed("axis", true)
   			  .call(leftAxis);
-
-  	//Append an SVG group element to the SVG area, create the bottom axis inside of it
-  	//Tranlsate the bottom axis to the bottom of the page 
-  	chartGroup.append("g")
-  			  .classed("axis", true)
-  			  .attr("transform", `translate(0,${chartHeight})`)
-  			  .call(bottomAxis);
 
   	//Create scatterplot and append initial ciricles
   	var circlesGroup=chartGroup.selectAll("circle")
