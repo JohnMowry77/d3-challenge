@@ -121,7 +121,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                             .attr("value", "income")
                             .attr("dx", "1em")
                             .classed("active", true)
-                            .text("Income in $");
+                            .text("Income");
 
   var ageLabel= xLabelsGroup.append("text")
                                .attr("x", 30)

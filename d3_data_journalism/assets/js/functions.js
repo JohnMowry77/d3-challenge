@@ -83,7 +83,7 @@ function updateToolTip(circlesGroup, chosenXAxis, chosenYAxis) {
   var xLabel=""
 
   if (chosenXAxis==="income") { // strict equal if two operands are equal returns boolean
-    xLabel= "Income ($)";
+    xLabel= "Income";
   }
     else if (chosenXAxis ==="age") {
       xLabel = "Age";
