@@ -119,6 +119,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                             // attr("y", margin.top+chartHeight+10)
                             .attr("y", 0)
                             .attr("value", "income")
+                            .attr("dx", "1em")
                             .classed("active", true)
                             .text("Income in $");
 
@@ -165,7 +166,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                            .attr("value", "smokes")
                            .attr("dy", "1em")
                            .classed("axis-text", true)
-                           .text("Smokes %");
+                           .text("% Smoking");
   //updateTollTip function above csv import
  circlesGroup= updateToolTip(circlesGroup, chosenXAxis, chosenYAxis);
   	// //Step 1: Append tooltip div
@@ -193,7 +194,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                   circlesX_Y = renderXCircles(circlesX_Y, xLinearScale, chosenXAxis);
 
                   // update circles text with new x values
-                  circlesText= renderXText(circlesText, xLinearScale, chosenYAxis);
+                  circlesText= renderXText(circlesText, xLinearScale, chosenXAxis);
 
                   // updates tooltips with new info
                   circlesGroup = updateToolTip(circlesGroup, chosenXAxis, chosenYAxis);;

@@ -101,7 +101,7 @@ function updateToolTip(circlesGroup, chosenXAxis, chosenYAxis) {
       yLabel= "Healthcare";
     }
     else {
-    	ylabel= "Smokes";
+    	ylabel= "smokes";
     }
 
   var toolTip =d3.tip()
