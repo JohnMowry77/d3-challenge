@@ -53,7 +53,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
 	});
 
 
-  // xScale function above csv import
+  // xScale function from functions.js
   var xLinearScale= xScale(state_Data, chosenXAxis);
   // the xScale user defined function calls the d3.linearScale() 
   // returns a scaler function
@@ -166,9 +166,10 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                            .attr("value", "smokes")
                            .attr("dy", "1em")
                            .classed("axis-text", true)
-                           .text("% Smoking");
-  //updateTollTip function above csv import
- circlesGroup= updateToolTip(circlesGroup, chosenXAxis, chosenYAxis);
+                           .text("Smoking %");
+
+ //  //updateToolTip function from functions.js
+ // circlesGroup= updateToolTip(circlesGroup, chosenXAxis, chosenYAxis);
   	// //Step 1: Append tooltip div
   	// var toolTip=d3.select("body")
   	// 			  .append("div", "#scatter")
@@ -183,7 +184,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                   chosenXAxis =value;
                   // console.log(chosenXAxis)
               
-                  // functions here found above csv import
+                  // functions here found in functions.js
                   // updates x scale for new data
                   xLinearScale = xScale(state_Data, chosenXAxis);
 
