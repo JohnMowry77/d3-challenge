@@ -299,8 +299,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
 
                   // updates x axis with transition 
                   xAxis = renderAxes(xLinearScale, xAxis);
-                  // updates y axis with transition 
-                  yAxis = renderyAxes(yLinearScale, yAxis);
+
                   // updates circles with new x values
                   circlesGroup = renderXCircles(circlesGroup, xLinearScale, chosenXAxis);
                   // updates circles with new y values
@@ -319,7 +318,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                     // .classed("inactive", true);
                   }
                     else {
-                      obseity_one
+                      
                       .classed("active", false)
                       .classed("inactive", true);
                     }
