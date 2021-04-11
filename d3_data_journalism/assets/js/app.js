@@ -226,25 +226,41 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                 if (value!== chosenXAxis) {
                   //replaces chosenXAxis
                   chosenXAxis =value;
+                  // console.log(chosenXAxis)
+              
+                  // functions here found above csv import
+                  // updates x scale for new data
+                  xLinearScale = xScale(state_Data, chosenXAxis);
 
-                  console.log(chosenXAxis)
-                          // functions here found above csv import
-        // updates x scale for new data
-        xLinearScale = xScale(state_Data, chosenXAxis);
+                  // updates x axis with transition 
+                  xAxis = renderAxes(xLinearScale, xAxis);
+                  // updates y axis with transition 
+                  yAxis = renderyAxes(YLinearScale, yAxis);
+                  // updates circles with new x values
+                  circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis);
 
-        // updates x axis with transition
-        xAxis = renderAxes(xLinearScale, xAxis);
+                  // updates tooltips with new info
+                  circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
 
-        // updates circles with new x values
-        circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis);
-
-        // updates tooltips with new info
-        circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
+                  //changes classes to changes bold text
+                  if (chosenAxis === "obesity") {
+                    income_one
+                    .classed("active", true)
+                    .classed("inactive", false);
+                    xAxisLabel
+                    .classed("active", false)
+                    .classed("inactive", true);
+                  }
+                  else {
+                    income_one
+                    .classed("active", false)
+                    .classed("inactive", true);
+                  }
                 }
-             });
 
-  	// .catch(function(error) {
-  	// 	console.log(error);
-  	// });
+            });
+
+}).catch(function(error) {
+  console.log(error);
 });
 
