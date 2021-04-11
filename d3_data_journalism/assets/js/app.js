@@ -259,7 +259,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                              .attr("x", 0-(chartHeight/2))
                              .attr("dy", "1em")
                              .classed("axis-text", true)
-                             .text("Obesity");
+                             .text("Obesity %");
 
 
   var yHealthcare = yLabelsGroup.append("text")
@@ -276,8 +276,8 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                               .attr("x", 0-(chartHeight/2))
                               .attr("dy", "1em")
                              .classed("axis-text", true)
-                             .text("Smokes");
-  //updateTollTip funciton above csv import
+                             .text("Smokes %");
+  //updateTollTip function above csv import
  circlesGroup= updateToolTip(circlesGroup, chosenXAxis, chosenYAxis);
   	// //Step 1: Append tooltip div
   	// var toolTip=d3.select("body")
@@ -289,7 +289,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
              .on("click", function() {
                 var value =d3.select(this).attr("value");
                 if (value!== chosenXAxis) {
-                  //replaces chosenXAxis
+                  //replaces chosenXAxis with value
                   chosenXAxis =value;
                   // console.log(chosenXAxis)
               
@@ -301,27 +301,50 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                   xAxis = renderAxes(xLinearScale, xAxis);
 
                   // updates circles with new x values
-                  circlesGroup = renderXCircles(circlesGroup, xLinearScale, chosenXAxis);
-                  // updates circles with new y values
-                  criclesGroupY=renderYCircles(circlesGroup, yLinearScale, chosenYAxis);
+                  circlesX_Y = renderXCircles(circlesX_Y, xLinearScale, chosenXAxis);
+
+                  // update circles text with new x values
+                  circlesText= renderXText(circlesText, chosenXAxis, chosenYAxis);
 
                   // updates tooltips with new info
                   circlesGroup = updateToolTip(circlesGroup, chosenXAxis, chosenYAxis);;
 
                   //changes classes to changes bold text
                   if (chosenXAxis === "income") { //returns boolean ===
-                    yAxisLabel
+                    incomeLabel
                     .classed("active", true)
                     .classed("inactive", false);
-                    // xAxisLabel
-                    // .classed("active", false)
-                    // .classed("inactive", true);
+                    ageLabel
+                    .classed("active", false)
+                    .classed("inactive", true);
+                    povertyLabel
+                    .classed("active", false)
+                    .classed("inactive", true);
                   }
-                    else {
-                      
+                    else if (ChosenXAxis ==="age") {
+                      incomeLabel
                       .classed("active", false)
                       .classed("inactive", true);
+                      ageLabel
+                      .classed("active", true)
+                      .classed("inactive", false);
+                      povertyLabel
+                      .classed("active", true)
+                      .classed("inactive", false);
                     }
+                    else {
+                      incomeLabel
+                      .classed("active", false)
+                      .classed("inactive", true);
+                      ageLabel
+                      .classed("active", true)
+                      .classed("inactive", false);
+                      povertyLabel
+                      .classed("active", true)
+                      .classed("inactive", false);
+
+                    }
+
                   if (chosenYAxis === "obesity") {
                     income
                     .classed("active", true)
@@ -336,7 +359,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                       .classed("inactive", true);
                     }
                   }
-            })
+            });
 // .catch(function(error) {
 //   console.log(error);
 
