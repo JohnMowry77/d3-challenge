@@ -89,12 +89,27 @@ function renderXCircles(circlesGroup, newXscale, chosenXAxis) {
 
   return circlesGroup;
 }
-
-function renderXCircles(circlesGroup, newYScale, chosenYAxis) {
+//function used for updating cirlces text with a transition to new circles
+function renderYCircles(circlesGroup, newYScale, chosenYAxis) {
   circlesGroup.transition()
               .duration(1000)
-              .attr("cy", d=> newYScale(d[chosenYAxis]);
+              .attr("cy", d=> newYScale(d[chosenYAxis]));
   return circlesGroup;            
+}
+
+//function used for updating circles text, both X & Y
+function renderXText(circlesGroup, newXScale, chosenXAxis) {
+  circlesGroup.transition()
+              .duration(1000)
+              .attr("dx", d=> newXScale(d[chosenXAxis]));
+  return circlesGroup;
+}
+
+function renderYText (circlesGroup, newYScale, chosenYAxis) {
+  circlesGroup.transition()
+              .duration (1000)
+              .attr("dy", d=> newYScale(d[ChosenYAxis]));
+  return circlesGroup;
 }
 
 // function used for updating circles group with new tooltip
