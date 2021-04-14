@@ -18,7 +18,7 @@ function renderAxes(newXScale, xAxis) {
   var bottomAxis= d3.axisBottom(newXScale);
 
   xAxis.transition()
-       .duration(800) //one second
+       .duration(1000) //one second
        .call(bottomAxis);
 
   return xAxis;

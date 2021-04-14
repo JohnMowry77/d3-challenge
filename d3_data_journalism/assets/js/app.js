@@ -58,7 +58,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
   // the xScale user defined function calls the d3.linearScale() 
   // returns a scaler function
 
-	//Configure a y scale function use linear scale w/ a range between the chartHeight and O
+	//Configure a y scale function use linear scale w/ a range between the chartHeight and 1
 	// Set the domain for the yLinearScale function
 	// var yLinearScale= d3.scaleLinear()
 	// 			              .domain([15, d3.max(state_Data, d => d.obesity)])
@@ -81,14 +81,15 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
   //append y axis
   //Append an SVG group element to the SVG area, create the left axis inside of it
   var yAxis=chartGroup.append("g")
+                      .classed("y-axis", true)
   			// .classed("axis", true)
   			    .call(leftAxis);
 
   //select the new g and circle, append to g
   var circlesGroup = chartGroup.selectAll("g circle")
-    .data(state_Data)
-    .enter()
-    .append("g");
+                               .data(state_Data)
+                               .enter()
+                               .append("g");
   
   // append circle x & y use stateCircle classed for formatting
   var circlesX_Y= circlesGroup.append("circle")
@@ -108,7 +109,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
 
   //Create group for the three x-axis labels
   var xLabelsGroup=chartGroup.append("g")
-  .attr("transform", `translate(${chartWidth/2}, ${chartHeight})`);
+                             .attr("transform", `translate(${chartWidth/2}, ${chartHeight})`);
     // .attr("transform", "translate(" +(chartWidth/2) + " ," +(chartHeight +margin.top+20) +")")
     // .style("text-anchor", "middle")
 
@@ -178,7 +179,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
   // xLabelsGroup is above 
   // Create x axis lables event listener
   xLabelsGroup.selectAll("text")
-             .on("click", function() {
+              .on("click", function() {
                 var value =d3.select(this).attr("value");
                 if (value!== chosenXAxis) {
                   //replaces chosenXAxis with value
@@ -229,7 +230,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                       .classed("active", false)
                       .classed("inactive", true);
                       ageLabel
-                      .classed("active", true)
+                      .classed("active", false)
                       .classed("inactive", false);
                       povertyLabel
                       .classed("active", true)
@@ -255,9 +256,9 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
 
   //y axis defined above
   //y axis lables event listener
-  //us xLabelsGroup and change values for y
+  //use xLabelsGroup and change values for y
   yLabelsGroup.selectAll("text")
-             .on("click", function() {
+              .on("click", function() {
                 var value =d3.select(this).attr("value");
                 if (value!== chosenYAxis) {
                   //replaces chosenXAxis with value

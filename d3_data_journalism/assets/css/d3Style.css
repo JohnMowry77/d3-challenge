@@ -53,6 +53,12 @@
   border-radius: 4px;
 }
 
+.x-axis {
+  padding-bottom: : 10px;
+  font-size:12px;
+  background: rgba(0, 0, 0, 0.8);
+}
+
 /* Mobile Rules */
 @media screen and (max-width: 530px) {
   .stateText {
@@ -68,16 +74,4 @@
   .aText {
     font-size: 13px;
   }
-}
-
-
-function xScales(stateData, xAxis) {
-    var xScale= d3.scaleLinear()
-          .range([0, chartWidth])
-          .domain([d3.min(stateData, d=>d[xAxis])*0.8],
-            d3.max(state_Data, =data['income'])]);
-
-  // console.log(xScale);
-  return xScale;
-  .domain([30000, d3.max(state_Data,  => data['income'])]);
 }
