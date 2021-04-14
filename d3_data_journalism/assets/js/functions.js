@@ -18,7 +18,7 @@ function renderAxes(newXScale, xAxis) {
   var bottomAxis= d3.axisBottom(newXScale);
 
   xAxis.transition()
-       .duration(1000) //one second
+       .duration(800) //one second
        .call(bottomAxis);
 
   return xAxis;
@@ -108,17 +108,18 @@ function updateToolTip(circlesGroup, chosenXAxis, chosenYAxis) {
                  .attr("class", "d3-tip")
                  .offset([80, -60])
                  .html(function(d) {
-                  return(`${d.state}<br>${xLabel}: ${d[chosenXAxis]}`);
+                  return(`${d.state}<br>${xLabel}</br>: ${d[chosenXAxis]}`);
                  });
   circlesGroup.call(toolTip);
   
-  circlesGroup.on("mouseover", function(data) {
-    toolTip.show(data, this);
-  })
+  circlesGroup.on("mouseover", toolTip.show)
+
+  // circlesGroup.on("mouseover", function(data) {
+  //   toolTip.show(data, this);
+  // })
   //on mouse out event
-    .on("mouseout", function(data) {
-      toolTip.hide(data, this);
-    });
+              .on("mouseout", toolTip.hide);
+
   
   return circlesGroup;
 }

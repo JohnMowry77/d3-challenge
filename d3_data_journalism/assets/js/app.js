@@ -100,9 +100,9 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                               .attr("stroke", "black");
 
   //append abbr to circles
-  var circlesText = circlesGroup.append("text")//text doesn't exist right now, it will in the next few lines
+  var circlesText = circlesGroup.append("text")
                           .text(d => d.abbr) //function (d) {return d.abbr;})
-                          .classed("stateText", true)
+                          .classed("stateText", true) //d3Style.css
                           .attr("dx", d => xLinearScale(d[chosenXAxis])) //{return -20})
                           .attr("dy", d => yLinearScale(d[chosenYAxis])+1);
 
@@ -118,52 +118,52 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                             // attr("x", chartWidth/2)
                             // attr("y", margin.top+chartHeight+10)
                             .attr("y", 0)
-                            .attr("value", "income")
+                            .attr("value", "income") // value to grab for event listener
                             .attr("dx", "1em")
-                            .classed("active", true)
+                            .classed("active", true) //income will be active to start
                             .text("Income");
 
   var ageLabel= xLabelsGroup.append("text")
                                .attr("x", 30)
                                .attr("y", 10)
                                .attr("value", "age") // value to grab for event listener
-                               .classed("inactive", true)
+                               .classed("inactive", true) //inactive to start, event function below
                                .text("Age");
 
   var povertyLabel= xLabelsGroup.append("text")
                              .attr("x", 30)
                              .attr("y", 20)
                              .attr("value", "poverty") // value to grab for event listener
-                             .classed("inactive", true)
+                             .classed("inactive", true) //inactive to start, event function below
                              .text("poverty");
 
-  //create y axis for 3 variables
+  //create y axis for 3 variables //NEED TO ADJUST X/Y attr.
   var yLabelsGroup= chartGroup.append("g");
 
   var yObesity = yLabelsGroup.append("text")
-                             .attr("transform", "rotate(-90)")
-                             .attr("y", 0-margin.left) //move this back to 0. NEED TO ADJUST SVG ABOVE
+                             .attr("transform", "rotate(-90)") //rotate text sideways
+                             .attr("y", 0-margin.left) 
                              .attr("x", 0-(chartHeight/2))
-                             .attr("value", "obesity")
+                             .attr("value", "obesity") // value to grab for event listener
                              .attr("dy", "1em")
                              .classed("axis-text", true)
                              .text("Obesity %");
 
 
   var yHealthcare = yLabelsGroup.append("text")
-                                .attr("transform", "rotate(-90)")
-                                .attr("y", 80) //move this back to 0. NEED TO ADJUST SVG ABOVE
+                                .attr("transform", "rotate(-90)") //rotate text sideways
+                                .attr("y", 80) 
                                 .attr("x", 0-(chartHeight/2))
-                                .attr("value", "healthcare")
+                                .attr("value", "healthcare") // value to grab for event listener
                                 .attr("dy", "1em")
                                 .classed("axis-text", true)
                                 .text("Lacks Healthcare (%)");
 
   var ySmoke = yLabelsGroup.append("text")
                            .attr("transform", "rotate(-90)")
-                           .attr("y", 40 -margin.left) //move this back to 0. NEED TO ADJUST SVG ABOVE
+                           .attr("y", 40 -margin.left) 
                            .attr("x", 0-(chartHeight/2))
-                           .attr("value", "smokes")
+                           .attr("value", "smokes") // value to grab for event listener
                            .attr("dy", "1em")
                            .classed("axis-text", true)
                            .text("Smoking %");
@@ -175,7 +175,8 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
   	// 			  .append("div", "#scatter")
   	// 			  .attr("class", "d3-tip");		  
 
-  //x axis lables event listener
+  // xLabelsGroup is above 
+  // Create x axis lables event listener
   xLabelsGroup.selectAll("text")
              .on("click", function() {
                 var value =d3.select(this).attr("value");
@@ -252,7 +253,9 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                   }
             });
 
+  //y axis defined above
   //y axis lables event listener
+  //us xLabelsGroup and change values for y
   yLabelsGroup.selectAll("text")
              .on("click", function() {
                 var value =d3.select(this).attr("value");
@@ -261,7 +264,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                   chosenYAxis =value;
                   // console.log(chosenXAxis)
               
-                  // functions here found above csv import
+                  // functions here found in functions.js
                   // updates y scale for new data
                   yLinearScale = yScale(state_Data, chosenYAxis);
 
@@ -315,5 +318,4 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
             });                  
 // .catch(function(error) {
 //   console.log(error);
-
 });
