@@ -1,5 +1,11 @@
 //functions for commands on app.js
 
+//d is the data point
+// i is the location (or index) of the data point in the dataset
+// function (d, i) {
+//   return 10+(i*15); //start at 10 and then add 15 for each data point
+// }
+
 //Configure a linear scale w/ a range between 0 and the chartWidth
 //function
 function xScale(state_Data, chosenXAxis) {
@@ -100,15 +106,15 @@ function updateToolTip(circlesGroup, chosenXAxis, chosenYAxis) {
     else if (chosenYAxis ==="healthcare"){
       yLabel= "Healthcare";
     }
-    else {
-    	ylabel= "smokes";
+    else {"Smokes % ";
     }
 
   var toolTip =d3.tip()
                  .attr("class", "d3-tip")
                  .offset([80, -60])
                  .html(function(d) {
-                  return(`${d.state}<br>${xLabel}</br>: ${d[chosenXAxis]}`);
+                  return(`${d.state}<br>${xLabel}: ${d[chosenXAxis]}<br> ${yLabel}: ${d[chosenYAxis]}`);
+                  // return(`${d.state}<br>${yLabel}</br>: ${d[chosenYAxis]}`);
                  });
   circlesGroup.call(toolTip);
   

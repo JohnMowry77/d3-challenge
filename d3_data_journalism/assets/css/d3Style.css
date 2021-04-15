@@ -59,6 +59,12 @@
   background: rgba(0, 0, 0, 0.8);
 }
 
+.y-axis {
+  padding :10px;
+  font-size: 12px;
+  background: rgba(0,0,0, 1);
+}
+
 /* Mobile Rules */
 @media screen and (max-width: 530px) {
   .stateText {

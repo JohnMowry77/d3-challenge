@@ -7,9 +7,9 @@ var svgHeight= 500;
 //Define the chart's margins as an object
 var margin= {
 	top: 20,
-	right: 20,
-	bottom: 20,
-	left: 20
+	right: 40,
+	bottom: 90,
+	left: 100
 };
 
 //Define dimensions of the chart area
@@ -81,7 +81,11 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
   //append y axis
   //Append an SVG group element to the SVG area, create the left axis inside of it
   var yAxis=chartGroup.append("g")
-                      .classed("y-axis", true)
+                      .classed("y-axis", true) //
+                      // .attr("transform", ) //"rotate(-90)"
+                      .attr("y", 0 - margin.left)
+                      .attr("x", 30 - (chartHeight / 2))
+                      .attr("dy", "1em")
   			// .classed("axis", true)
   			    .call(leftAxis);
 
@@ -94,7 +98,7 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
   // append circle x & y use stateCircle classed for formatting
   var circlesX_Y= circlesGroup.append("circle")
                               .attr("cx", d=> xLinearScale(d[chosenXAxis])) //will never be a string
-                              .attr("cy", d=> yLinearScale(d[chosenYAxis]))
+                              .attr("cy", d=> yLinearScale(d[chosenYAxis])) 
                               .attr("r", 20)
                               .classed("stateCircle", true)
                               .attr("stroke-width", "1")
@@ -109,31 +113,31 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
 
   //Create group for the three x-axis labels
   var xLabelsGroup=chartGroup.append("g")
-                             .attr("transform", `translate(${chartWidth/2}, ${chartHeight})`);
+                             .attr("transform", `translate(${chartWidth/2}, ${chartHeight*1.05})`);
     // .attr("transform", "translate(" +(chartWidth/2) + " ," +(chartHeight +margin.top+20) +")")
     // .style("text-anchor", "middle")
 
   //Create x axis title, 3 variables
   var incomeLabel=xLabelsGroup.append("text")
-                            .attr("x", 30)
+                            .attr("x", 0)
                             // attr("x", chartWidth/2)
                             // attr("y", margin.top+chartHeight+10)
-                            .attr("y", 0)
+                            .attr("y", 20)
                             .attr("value", "income") // value to grab for event listener
-                            .attr("dx", "1em")
+                            // .attr("dx", "1em")
                             .classed("active", true) //income will be active to start
                             .text("Income");
 
   var ageLabel= xLabelsGroup.append("text")
-                               .attr("x", 30)
-                               .attr("y", 10)
+                               .attr("x", 0)
+                               .attr("y", 40)
                                .attr("value", "age") // value to grab for event listener
                                .classed("inactive", true) //inactive to start, event function below
                                .text("Age");
 
   var povertyLabel= xLabelsGroup.append("text")
-                             .attr("x", 30)
-                             .attr("y", 20)
+                             .attr("x", 0)
+                             .attr("y", 60)
                              .attr("value", "poverty") // value to grab for event listener
                              .classed("inactive", true) //inactive to start, event function below
                              .text("poverty");
@@ -143,29 +147,32 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
 
   var yObesity = yLabelsGroup.append("text")
                              .attr("transform", "rotate(-90)") //rotate text sideways
-                             .attr("y", 0-margin.left) 
+                             .attr("y", 30-margin.left) 
                              .attr("x", 0-(chartHeight/2))
                              .attr("value", "obesity") // value to grab for event listener
                              .attr("dy", "1em")
+                             .classed("active", true)
                              .classed("axis-text", true)
                              .text("Obesity %");
 
 
   var yHealthcare = yLabelsGroup.append("text")
                                 .attr("transform", "rotate(-90)") //rotate text sideways
-                                .attr("y", 80) 
+                                .attr("y", 15-margin.left) 
                                 .attr("x", 0-(chartHeight/2))
                                 .attr("value", "healthcare") // value to grab for event listener
                                 .attr("dy", "1em")
+                                .classed("inactive", true)
                                 .classed("axis-text", true)
                                 .text("Lacks Healthcare (%)");
 
   var ySmoke = yLabelsGroup.append("text")
                            .attr("transform", "rotate(-90)")
-                           .attr("y", 40 -margin.left) 
+                           .attr("y", 0 -margin.left) 
                            .attr("x", 0-(chartHeight/2))
                            .attr("value", "smokes") // value to grab for event listener
                            .attr("dy", "1em")
+                           .classed("inactive", true)
                            .classed("axis-text", true)
                            .text("Smoking %");
 
@@ -253,6 +260,13 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                     // }
                   }
             });
+//https:github.com/d3/d3-selection/blob/v2.0.0/README.md#select
+// If the selector is not a string, instead selects the specified node; this is useful if you already have a reference to a node, 
+// such as this within an event listener or a global such as document.body. For example, to make a clicked paragraph red:
+
+// d3.selectAll("p").on("click", function(event) {
+//   d3.select(this).style("color", "red");
+// });
 
   //y axis defined above
   //y axis lables event listener
@@ -269,13 +283,13 @@ d3.csv("assets/data/data.csv").then(function(state_Data, err) {
                   // updates y scale for new data
                   yLinearScale = yScale(state_Data, chosenYAxis);
 
-                  // updates x axis with transition 
+                  // updates y axis with transition 
                   yAxis = renderYAxes(yLinearScale, yAxis);
 
-                  // updates circles with new x values
+                  // updates circles with new y values
                   circlesX_Y = renderYCircles(circlesX_Y, yLinearScale, chosenYAxis);
 
-                  // update circles text with new x values
+                  // update circles text with new y values
                   circlesText= renderYText(circlesText, yLinearScale, chosenYAxis);
 
                   // updates tooltips with new info
